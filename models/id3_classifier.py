@@ -80,7 +80,7 @@ class ID3:
 
     @staticmethod
     def classify_helper(node, attributes):
-        if node.attribute is None:
+        if node.attribute is None or attributes[node.attribute] not in node.children.keys():
             max_estimate = 0
             classification = None
             for estimate in set(node.targets):
