@@ -26,17 +26,20 @@ class NaiveBayes:
                         self.attribute_map[target][j][self.examples[i][j]] += 1
 
     def classify(self, attributes):
-        classifications = []
+        estimates = []
         for target in self.target_set:
-            classification = 1
+            estimate = 1
             for i in range(len(attributes)):
-                classification *= self.attribute_map[target][i][attributes[i]] / self.num_instances
-            classification *= self.target_map[target] / self.num_instances
-            classifications.append(classification)
+                occurrences = 0
+                if attributes[i] in self.attribute_map[target][i].keys():
+                    occurrences = self.attribute_map[target][i][attributes[i]]
+                estimate *= (occurrences + 1) / (self.num_instances + len(set(DataHandler.column(self.examples, i))))
+            estimate *= self.target_map[target] / self.num_instances
+            estimates.append(estimate)
 
         max_idx = 0
         for i in range(len(self.target_set)):
-            if classifications[i] > classifications[max_idx]:
+            if estimates[i] > estimates[max_idx]:
                 max_idx = i
 
         return (list(self.target_set))[max_idx]
