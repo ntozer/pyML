@@ -5,7 +5,7 @@ import copy
 class DataHandler:
     def __init__(self):
         self.dataset = []
-        self.attributes = []
+        self.examples = []
         self.targets = []
 
     def import_data(self, filename):
@@ -22,8 +22,8 @@ class DataHandler:
 
     def create_targets(self, target_col):
         self.targets = []
-        self.attributes = copy.deepcopy(self.dataset)
-        for row in self.attributes:
+        self.examples = copy.deepcopy(self.dataset)
+        for row in self.examples:
             self.targets.append(row[target_col])
             del row[target_col]
 

@@ -41,5 +41,10 @@ class NaiveBayes:
         for i in range(len(self.target_set)):
             if estimates[i] > estimates[max_idx]:
                 max_idx = i
-
         return (list(self.target_set))[max_idx]
+
+    def classify_set(self, examples):
+        classifications = []
+        for row in examples:
+            classifications.append(self.classify(row))
+        return classifications

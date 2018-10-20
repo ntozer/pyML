@@ -1,1 +1,2 @@
 from models.naive_bayes_classifier import NaiveBayes
+from models.id3_classifier import ID3
