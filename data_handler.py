@@ -1,5 +1,6 @@
 import csv
 import copy
+import random
 
 
 class DataHandler:
@@ -32,6 +33,20 @@ class DataHandler:
             for val in row:
                 if val == '?':
                     print(row)
+
+    @staticmethod
+    def create_bagged_datasets(num_bags, examples, targets):
+        N = len(examples)
+        bagged_datasets = []
+        for i in range(num_bags):
+            bagged_examples = []
+            bagged_targets = []
+            for n in range(N):
+                j = random.randint(1, N - 1)
+                bagged_examples.append(examples[j])
+                bagged_targets.append(targets[j])
+            bagged_datasets.append((bagged_examples, bagged_targets))
+        return bagged_datasets
 
     @staticmethod
     def column(matrix, i):

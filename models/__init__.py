@@ -1,2 +1,3 @@
 from models.naive_bayes_classifier import NaiveBayes
 from models.id3_classifier import ID3
+from models.random_forest_classifier import RandomForest

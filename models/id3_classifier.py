@@ -1,5 +1,4 @@
 from math import log2
-import copy
 from data_handler import DataHandler
 
 
@@ -76,7 +75,7 @@ class ID3:
             ID3.train_helper(child, depth-1)
 
     def classify(self, attributes):
-        return ID3.classify_helper(self.root, attributes)
+        return ID3.classify_helper(self.root, attributes.copy())
 
     @staticmethod
     def classify_helper(node, attributes):
