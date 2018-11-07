@@ -9,6 +9,7 @@ class RandomForest:
         self.forest = []
 
     def train(self, forest_size=50, tree_depth=10):
+        # TODO: add randomness to attribute selection
         bagged_datasets = DataHandler.create_bagged_datasets(forest_size, self.examples, self.targets)
         for bagged_dataset in bagged_datasets:
             id3 = ID3(bagged_dataset[0], bagged_dataset[1])

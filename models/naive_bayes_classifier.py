@@ -2,7 +2,7 @@ from data_handler import DataHandler
 
 
 class NaiveBayes:
-    def __init__(self, targets, examples, num_attributes):
+    def __init__(self, examples, targets, num_attributes):
         self.target_set = set(targets)
         self.num_instances = len(examples)
         self.targets = targets
