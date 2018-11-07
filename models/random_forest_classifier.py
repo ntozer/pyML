@@ -1,5 +1,7 @@
 from models import ID3
 from data_handler import DataHandler
+from math import sqrt
+import random
 
 
 class RandomForest:
@@ -9,10 +11,15 @@ class RandomForest:
         self.forest = []
 
     def train(self, forest_size=50, tree_depth=10):
-        # TODO: add randomness to attribute selection
         bagged_datasets = DataHandler.create_bagged_datasets(forest_size, self.examples, self.targets)
         for bagged_dataset in bagged_datasets:
-            id3 = ID3(bagged_dataset[0], bagged_dataset[1])
+            examples = bagged_dataset[0]
+            targets = bagged_dataset[1]
+            num_attributes = len(examples[0])
+            num_chosen_attr = int(sqrt(num_attributes))
+            while num_chosen_attr > len(examples[0]):
+                DataHandler.rm_column(examples, random.randint(1, len(examples[0])-1))
+            id3 = ID3(examples, targets)
             id3.train(tree_depth)
             self.forest.append(id3)
 
