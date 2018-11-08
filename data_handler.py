@@ -56,3 +56,23 @@ class DataHandler:
     def rm_column(matrix, i):
         for row in matrix:
             del row[i]
+
+    @staticmethod
+    def index_from_probs(probabilities):
+        choice = random.random()
+        prob_sum = 1
+        for i in range(len(probabilities)):
+            if (prob_sum - probabilities[i]) < choice:
+                return i
+            prob_sum += -probabilities[i]
+
+    @staticmethod
+    def create_weighted_bag(examples, targets, probs):
+        N = len(examples)
+        bagged_examples = []
+        bagged_targets = []
+        for n in range(N):
+            i = DataHandler.index_from_probs(probs)
+            bagged_examples.append(examples[i])
+            bagged_targets.append(targets[i])
+        return bagged_examples, bagged_targets
