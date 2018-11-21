@@ -1,3 +1,6 @@
+import math
+
+
 class kNN:
     def __init__(self, examples, targets):
         self.examples = examples
@@ -16,6 +19,17 @@ class kNN:
         return distance
 
     @staticmethod
+    def compute_euclidean(vector1, vector2):
+        distance = 0
+        if len(vector1) != len(vector2):
+            print('Euclidean distance not computable, vectors of unequal length')
+            return
+        for i in range(len(vector1)):
+            distance += (vector1[i] - vector2[i])**2
+        distance = math.sqrt(distance)
+        return distance
+
+    @staticmethod
     def furthest_neighbor(neighbors):
         max_idx = 0
         for i in range(len(neighbors)):
@@ -30,7 +44,7 @@ class kNN:
     def classify(self, attributes):
         nearest = []
         for i in range(len(self.examples)):
-            dist = kNN.compute_hamming(self.examples[i], attributes)
+            dist = kNN.compute_euclidean(self.examples[i], attributes)
             if len(nearest) < self.k:
                 nearest.append((i, dist))
             else:
