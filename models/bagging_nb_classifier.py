@@ -3,16 +3,16 @@ from data_handler import DataHandler
 
 
 class BaggingNB:
-    def __init__(self, examples, targets, num_attributes):
+    def __init__(self, examples, targets):
         self.targets = targets
         self.examples = examples
-        self.num_attributes = num_attributes
+        self.num_attributes = len(examples[0])
         self.nb_classifiers = []
 
     def train(self, num_classifiers=50):
         bagged_datasets = DataHandler.create_bagged_datasets(num_classifiers, self.examples, self.targets)
         for bagged_dataset in bagged_datasets:
-            naive_bayes = NaiveBayes(bagged_dataset[0], bagged_dataset[1], self.num_attributes)
+            naive_bayes = NaiveBayes(bagged_dataset[0], bagged_dataset[1])
             naive_bayes.train()
             self.nb_classifiers.append(naive_bayes)
 

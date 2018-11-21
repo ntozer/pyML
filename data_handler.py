@@ -76,3 +76,11 @@ class DataHandler:
             bagged_examples.append(examples[i])
             bagged_targets.append(targets[i])
         return bagged_examples, bagged_targets
+
+    @staticmethod
+    def shuffle_dataset(dataset):
+        for i in range(len(dataset)):
+            j = random.randint(0, len(dataset)-1)
+            temp = dataset[i]
+            dataset[i] = dataset[j]
+            dataset[j] = temp

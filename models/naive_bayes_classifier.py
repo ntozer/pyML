@@ -2,22 +2,29 @@ from data_handler import DataHandler
 
 
 class NaiveBayes:
-    def __init__(self, examples, targets, num_attributes):
-        self.target_set = set(targets)
-        self.num_instances = len(examples)
+    def __init__(self, examples, targets):
+        self.num_instances = 0
+        self.num_attributes = 0
         self.targets = targets
         self.examples = examples
         self.target_map = {}
         self.attribute_map = {}
+        self.target_set = set(targets)
+
+    def train(self):
+        self.target_map = {}
+        self.attribute_map = {}
+        self.num_instances = len(self.examples)
+        self.num_attributes = len(self.examples[0])
+
         for target in self.target_set:
             self.target_map[target] = 0
             self.attribute_map[target] = {}
-            for i in range(num_attributes):
+            for i in range(self.num_attributes):
                 self.attribute_map[target][i] = {}
-                for attribute in set(DataHandler.column(examples, i)):
+                for attribute in set(DataHandler.column(self.examples, i)):
                     self.attribute_map[target][i][attribute] = 0
 
-    def train(self):
         for target in self.target_set:
             for i in range(self.num_instances):
                 if self.targets[i] == target:
