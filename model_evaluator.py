@@ -79,10 +79,15 @@ class ModelEvaluator:
             # get accuracy
             accuracy.append(ModelEvaluator.compute_accuracy(classifications, test_targets))
 
-        print(accuracy)
         avg_accuracy = sum(accuracy)/len(accuracy)
 
         return avg_accuracy
+
+    def n_time_k_cross_fold(self, n, k):
+        accuracy = []
+        for i in range(n):
+            accuracy.append(self.k_fold_cross_val(k))
+        return sum(accuracy) / len(accuracy)
 
     # model functions
     def training_error(self):

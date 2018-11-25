@@ -25,12 +25,11 @@ class NaiveBayes:
                 for attribute in set(DataHandler.column(self.examples, i)):
                     self.attribute_map[target][i][attribute] = 0
 
-        for target in self.target_set:
-            for i in range(self.num_instances):
-                if self.targets[i] == target:
-                    self.target_map[target] += 1
-                    for j in range(len(self.examples[i])):
-                        self.attribute_map[target][j][self.examples[i][j]] += 1
+        for i in range(self.num_instances):
+            target = self.targets[i]
+            self.target_map[target] += 1
+            for j in range(len(self.examples[i])):
+                self.attribute_map[target][j][self.examples[i][j]] += 1
 
     def classify(self, attributes):
         estimates = []
