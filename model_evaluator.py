@@ -87,7 +87,15 @@ class ModelEvaluator:
         accuracy = []
         for i in range(n):
             accuracy.append(self.k_fold_cross_val(k))
-        return sum(accuracy) / len(accuracy)
+
+        mean = sum(accuracy) / len(accuracy)
+
+        std_dev = 0
+        for val in accuracy:
+            std_dev += (mean - val) ** 2
+        std_dev = (1 / len(accuracy) * std_dev) ** 0.5
+
+        return mean, std_dev
 
     # model functions
     def training_error(self):

@@ -49,7 +49,7 @@ class ID3:
 
     @staticmethod
     def train_helper(node, depth):
-        if depth == 0 or len(set(node.targets)) == 1:
+        if depth == 0 or len(set(node.targets)) == 0:
             return
 
         # identifies the best attribute for the current node
