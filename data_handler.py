@@ -15,11 +15,21 @@ class DataHandler:
             csv_reader = csv.reader(csv_file)
             for row in csv_reader:
                 for idx in range(len(row)):
-                    # TODO currently hardcoded to remove '?' from breastcancer data, need to implement bagging
-                    if row[idx] == '?':
-                        row[idx] = 0
                     row[idx] = int(row[idx])
                 self.dataset.append(row)
+
+    def export_data(self, filename):
+        with open('data/prepared/{}'.format(filename), 'w') as file:
+            writer = csv.writer(file)
+            writer.writerows(self.dataset)
+
+    def count_occurrences(self, column):
+        occurrences = {}
+        for row in self.dataset:
+            if row[column] not in occurrences.keys():
+                occurrences[row[column]] = 0
+            occurrences[row[column]] += 1
+        return occurrences
 
     def create_targets(self, target_col):
         self.targets = []
