@@ -11,6 +11,7 @@ class RandomForest:
         self.forest = []
 
     def train(self, forest_size=50, tree_depth=10):
+        self.forest = []
         bagged_datasets = DataHandler.create_bagged_datasets(forest_size, self.examples, self.targets)
         for bagged_dataset in bagged_datasets:
             examples = bagged_dataset[0]
