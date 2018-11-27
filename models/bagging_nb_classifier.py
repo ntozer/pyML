@@ -21,7 +21,10 @@ class BaggingNB:
         for target in set(self.targets):
             votes[target] = 0
         for id3 in self.nb_classifiers:
-            votes[id3.classify(attributes)] += 1
+            vote = id3.classify(attributes)
+            if vote not in votes.keys():
+                votes[vote] = 0
+            votes[vote] += 1
         max_key = self.targets[0]
         for key in votes:
             if votes[key] > votes[max_key]:

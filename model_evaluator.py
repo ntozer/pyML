@@ -30,7 +30,7 @@ class ModelEvaluator:
 
         return accuracy
 
-    def k_fold_cross_val(self, k=10):
+    def k_fold_cross_val(self, k=5):
         model = copy.deepcopy(self.model)
         examples = copy.deepcopy(model.examples)
         targets = copy.deepcopy(model.targets)

@@ -49,25 +49,25 @@ class ID3:
 
     @staticmethod
     def train_helper(node, depth):
-        if depth == 0 or len(set(node.targets)) == 1:
+        if depth == 0 or len(set(node.targets)) == 1 or len(node.examples[0]) == 0:
             return
 
         # identifies the best attribute for the current node
-        min_idx = 0
-        min_gain = ID3.gain(node.targets, DataHandler.column(node.examples, min_idx))
+        max_idx = 0
+        max_gain = ID3.gain(node.targets, DataHandler.column(node.examples, max_idx))
         for i in range(len(node.examples[0])):
-            if ID3.gain(node.targets, DataHandler.column(node.examples, i)) < min_gain:
-                min_idx, min_gain = i, ID3.gain(node.targets, DataHandler.column(node.examples, i))
-        node.attribute = min_idx
+            if ID3.gain(node.targets, DataHandler.column(node.examples, i)) > max_gain:
+                max_idx, max_gain = i, ID3.gain(node.targets, DataHandler.column(node.examples, i))
+        node.attribute = max_idx
 
         # creates a dictionary of children associated with attribute values
-        for attr_val in set(DataHandler.column(node.examples, min_idx)):
+        for attr_val in set(DataHandler.column(node.examples, max_idx)):
             node.children[attr_val] = ID3Node(parent=node)
 
         idx = 0
         for row in node.examples:
-            node.children[row[min_idx]].examples.append(row.copy())
-            node.children[row[min_idx]].targets.append(node.targets[idx])
+            node.children[row[max_idx]].examples.append(row.copy())
+            node.children[row[max_idx]].targets.append(node.targets[idx])
             idx += 1
 
         for key, child in node.children.items():

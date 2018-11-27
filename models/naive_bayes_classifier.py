@@ -9,27 +9,24 @@ class NaiveBayes:
         self.examples = examples
         self.target_map = {}
         self.attribute_map = {}
+        self.col_attr_count = {}
         self.target_set = set(targets)
 
     def train(self):
         self.target_map = {}
         self.attribute_map = {}
+        self.col_attr_count = {}
         self.num_instances = len(self.examples)
         self.num_attributes = len(self.examples[0])
 
-        for target in self.target_set:
-            self.target_map[target] = 0
-            self.attribute_map[target] = {}
-            for i in range(self.num_attributes):
-                self.attribute_map[target][i] = {}
-                for attribute in set(DataHandler.column(self.examples, i)):
-                    self.attribute_map[target][i][attribute] = 0
-
-        for i in range(self.num_instances):
-            target = self.targets[i]
-            self.target_map[target] += 1
-            for j in range(len(self.examples[i])):
-                self.attribute_map[target][j][self.examples[i][j]] += 1
+        for target in self.targets:
+            self.target_map[target] = self.targets.count(target)
+            target_examples = [self.examples[i] for i in range(len(self.examples)) if target == self.targets[i]]
+            example_t = list(map(list, zip(*target_examples)))
+            for i in range(len(example_t)):
+                self.col_attr_count[i] = len(set(example_t[i]))
+                for val in set(example_t[i]):
+                    self.attribute_map[(target, i, val)] = example_t[i].count(val)
 
     def classify(self, attributes):
         estimates = []
@@ -37,10 +34,10 @@ class NaiveBayes:
             estimate = 1
             for i in range(len(attributes)):
                 occurrences = 0
-                if attributes[i] in self.attribute_map[target][i].keys():
-                    occurrences = self.attribute_map[target][i][attributes[i]]
-                estimate *= (occurrences + 1) / (self.num_instances + len(set(DataHandler.column(self.examples, i))))
-            estimate *= self.target_map[target] / self.num_instances
+                if (target, i, attributes[i]) in self.attribute_map.keys():
+                    occurrences = self.attribute_map[(target, i, attributes[i])]
+                estimate *= (occurrences + 1) / (self.num_instances + self.col_attr_count[i])
+            estimate *= (self.target_map[target] if target in self.target_map.keys() else 0) / self.num_instances
             estimates.append(estimate)
 
         max_idx = 0
